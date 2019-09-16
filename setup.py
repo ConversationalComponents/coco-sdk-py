@@ -10,7 +10,7 @@ def read(fname):
 long_description = read("README.md")
 
 setup(name='coco-sdk',
-      version='0.0.1',
+      version='0.0.2',
       description='CoCo(Conversational Components) SDK for building modular chatbots',
       long_description=long_description,
       author='Chen Buskilla',

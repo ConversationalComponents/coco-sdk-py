@@ -1,16 +1,29 @@
 import uuid
+import json
 
-from dataclasses import dataclass
 import requests
 
-@dataclass
 class CoCoResponse:
-    response: str
-    component_done: bool
-    updated_context: dict
-    confidence: float
-    idontknow: bool
-    raw_resp: dict
+    def __init__(
+            self,
+            response: str="",
+            component_done: bool=False,
+            component_failed: bool=False,
+            updated_context: dict={},
+            confidence: float=1.,
+            idontknow: bool=False,
+            raw_resp: dict={},
+    ):
+        self.response = response
+        self.component_done = component_done
+        self.component_failed = component_failed
+        self.updated_context = updated_context
+        self.confidence = confidence
+        self.idontknow = idontknow
+        self.raw_resp = raw_resp
+
+    def __repr__(self):
+        return json.dumps(self.raw_resp, indent=True)
 
 def exchange(component_id: str, session_id: str,
                   user_input: str = None, **kwargs) -> CoCoResponse:

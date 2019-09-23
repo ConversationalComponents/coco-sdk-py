@@ -2,6 +2,7 @@ import uuid
 import json
 
 import requests
+from pygments import highlight, lexers, formatters
 
 class CoCoResponse:
     def __init__(
@@ -13,17 +14,25 @@ class CoCoResponse:
             confidence: float=1.,
             idontknow: bool=False,
             raw_resp: dict={},
+            **kwargs
     ):
-        self.response = response
-        self.component_done = component_done
-        self.component_failed = component_failed
-        self.updated_context = updated_context
-        self.confidence = confidence
-        self.idontknow = idontknow
-        self.raw_resp = raw_resp
+        self.response: str = response
+        self.component_done: bool = component_done
+        self.component_failed: bool = component_failed
+        self.updated_context: dict = updated_context
+        self.confidence: float = confidence
+        self.idontknow: bool = idontknow
+        self.raw_resp: dict = raw_resp
+
+        for k, karg in kwargs.items():
+            setattr(self, k, karg)
 
     def __repr__(self):
-        return json.dumps(self.raw_resp, indent=True)
+        instance_dict = {k: v for k, v in self.__dict__.items() if k != "raw_resp"}
+        formatted_json = json.dumps(instance_dict, indent=True)
+        colorful_json = highlight(
+            formatted_json, lexers.JsonLexer(), formatters.TerminalFormatter())
+        return colorful_json
 
 def exchange(component_id: str, session_id: str,
                   user_input: str = None, **kwargs) -> CoCoResponse:

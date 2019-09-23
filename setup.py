@@ -10,14 +10,14 @@ def read(fname):
 long_description = read("README.md")
 
 setup(name='coco-sdk',
-      version='0.0.2',
+      version='0.0.3',
       description='CoCo(Conversational Components) SDK for building modular chatbots',
       long_description=long_description,
       author='Chen Buskilla',
       author_email='chen@buskilla.com',
       url='https://github.com/conversationalcomponents/coco-sdk-py',
       license='MIT',
-      install_requires=['requests'],
+      install_requires=['requests', 'pygments'],
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
           'Intended Audience :: Developers',

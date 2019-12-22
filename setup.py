@@ -10,7 +10,7 @@ def read(fname):
 long_description = read("README.md")
 
 setup(name='coco-sdk',
-      version='0.0.3',
+      version='0.0.4',
       description='CoCo(Conversational Components) SDK for building modular chatbots',
       long_description=long_description,
       author='Chen Buskilla',
@@ -25,10 +25,9 @@ setup(name='coco-sdk',
           'Intended Audience :: Science/Research',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.7',
           'Topic :: Software Development :: Libraries',
           'Topic :: Software Development :: Libraries :: Python Modules'
       ],
       packages=find_packages(),
-      python_requires=">=3.7"
+      python_requires=">=3.6"
 )

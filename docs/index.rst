@@ -6,6 +6,8 @@
 Welcome to CoCo Python SDK's documentation!
 ===========================================
 
+.. include:: ../README.md
+
 .. automodule:: coco
 .. autofunction:: exchange
 .. autoclass:: ComponentSession

@@ -37,16 +37,19 @@ class CoCoResponse:
 def exchange(component_id: str, session_id: str,
                   user_input: str = None, **kwargs) -> CoCoResponse:
     """
-    calls coco and try to maintain similar api.
-    available optional kwargs are:
-        user_input
-        context
+    A thin wrapper to call the coco exchange endpoint.
+    Similar to the endpoint, component_id, and session_id are mandatory
+    everything else is optional.
 
-    full api spec available at app.coco.imperson.com
+    Optional paramters:
+        user_input - a user input string
+        context - dict with keys specified according to the context transfer spec:
+        https://conversationalcomponents.readthedocs.io/en/latest/api.html
 
     Arguments:
-        component_id {str} -- the component id from coco app
-        session_id {str} -- a randomly generated session id to identify the session
+        component_id {str} -- A CoCo component id from the marketplace gateway
+                              (published at marketplace.conversationalcomponents.com)
+        session_id {str} -- a randomly generated session id to identify the session(conversation)
 
     Returns:
         CoCoResponse instance
@@ -55,7 +58,7 @@ def exchange(component_id: str, session_id: str,
     if user_input:
         payload = {**{"user_input": user_input}, **kwargs}
     coco_resp = requests.post(
-        "https://app.coco.imperson.com/api/exchange/"
+        "https://marketplace.conversationalcomponents.com/api/exchange/"
         f"{component_id}/{session_id}",
         json=payload,
     ).json()
@@ -66,7 +69,10 @@ def generate_session_id():
 
 class ConversationalComponent:
     """
-    A wrapper for the coco exchange call to keep a component instance as a variable
+    A component class to hold a reference to a single component.
+
+    initalize it with a component id.
+    then call it with session_id and more optional parameters.
     """
     def __init__(self, component_id: str):
         self.component_id = component_id
@@ -77,7 +83,9 @@ class ConversationalComponent:
 
 class ComponentSession:
     """
-    A wrapper for a session. generates and keep the session_id for you
+    This class can manage both component and session.
+
+    Initialize it with component_id, and session_id
     """
     def __init__(self, component_id: str, session_id: str = None):
         self.component = ConversationalComponent(component_id)
@@ -87,5 +95,10 @@ class ComponentSession:
             self.session_id = session_id
 
     def __call__(self, user_input: str = None, **kwargs) -> CoCoResponse:
+        """
+        Can be called with any parameters
+
+        Should be used mostly with user_input and context
+        """
         return self.component(self.session_id, user_input, **kwargs)
 

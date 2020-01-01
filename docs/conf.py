@@ -29,7 +29,7 @@ author = 'Chen Buskilla'
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
-    "recommonmark"
+    "m2r"
 ]
 
 # Add any paths that contain templates here, relative to this directory.

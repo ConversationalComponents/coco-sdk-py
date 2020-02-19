@@ -44,7 +44,7 @@ def exchange(component_id: str, session_id: str,
     Optional paramters:
         user_input - a user input string
         context - dict with keys specified according to the context transfer spec:
-        https://conversationalcomponents.readthedocs.io/en/latest/api.html
+        https://docs.converationalcomponents.com/
 
     Arguments:
         component_id {str} -- A CoCo component id from the marketplace gateway
@@ -58,7 +58,7 @@ def exchange(component_id: str, session_id: str,
     if user_input:
         payload = {**{"user_input": user_input}, **kwargs}
     coco_resp = requests.post(
-        "https://marketplace.conversationalcomponents.com/api/exchange/"
+        "https://cocohub.ai/api/exchange/"
         f"{component_id}/{session_id}",
         json=payload,
     ).json()

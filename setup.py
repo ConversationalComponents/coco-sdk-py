@@ -13,13 +13,14 @@ setup(name='coco-sdk',
       version='0.0.6',
       description='CoCo(Conversational Components) SDK for building modular chatbots',
       long_description=long_description,
+      long_description_content_type='text/markdown',
       author='Chen Buskilla',
       author_email='chen@buskilla.com',
       url='https://github.com/conversationalcomponents/coco-sdk-py',
       license='MIT',
       install_requires=['requests', 'pygments'],
       extras_require={
-          "async": ["httpx=0.9.3"]
+          "async": ["httpx==0.9.3"]
       },
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',

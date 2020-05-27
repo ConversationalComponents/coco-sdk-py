@@ -3,6 +3,8 @@ import os
 from setuptools import setup
 from setuptools import find_packages
 
+PYPI_PACKAGE_VERSION = os.environ.get("PYPI_PACKAGE_VERSION", "dev")
+
 def read(fname):
     with open(os.path.join(os.path.dirname(__file__), fname)) as f:
         return f.read()
@@ -10,7 +12,7 @@ def read(fname):
 long_description = read("README.md")
 
 setup(name='coco-sdk',
-      version='0.0.6',
+      version=PYPI_PACKAGE_VERSION,
       description='CoCo(Conversational Components) SDK for building modular chatbots',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -20,7 +22,7 @@ setup(name='coco-sdk',
       license='MIT',
       install_requires=['requests', 'pygments'],
       extras_require={
-          "async": ["httpx==0.9.3"]
+          "async": ["httpx==0.11.1"]
       },
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',

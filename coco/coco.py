@@ -11,7 +11,7 @@ class CoCoResponse:
             component_failed: bool=False,
             updated_context: dict={},
             confidence: float=1.,
-            idontknow: bool=False,
+            out_of_context: bool=False,
             raw_resp: dict={},
             **kwargs
     ):
@@ -20,7 +20,7 @@ class CoCoResponse:
         self.component_failed: bool = component_failed
         self.updated_context: dict = updated_context
         self.confidence: float = confidence
-        self.idontknow: bool = idontknow
+        self.out_of_context: bool = out_of_context
         self.raw_resp: dict = raw_resp
 
         for k, karg in kwargs.items():

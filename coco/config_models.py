@@ -5,12 +5,10 @@ from pydantic import BaseModel
 
 class TransationConfig(BaseModel):
     # translate user inputs from source to target
-    input_source_language: Optional[str]
     input_target_language: Optional[str]
 
     # translate component responses from source to target
     response_source_language: Optional[str]
-    response_target_language: Optional[str]
 
 
 class BlueprintConfig(BaseModel):

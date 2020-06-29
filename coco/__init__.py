@@ -5,3 +5,5 @@ from .sync import (
     generate_session_id,
     ComponentSession
 )
+
+from . import config_models as config

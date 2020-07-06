@@ -3,7 +3,7 @@ from typing import Dict, Optional, List
 from pydantic import BaseModel
 
 
-class TransationConfig(BaseModel):
+class TranslationConfig(BaseModel):
     # translate user inputs from source to target
     input_target_language: Optional[str]
 
@@ -13,7 +13,7 @@ class TransationConfig(BaseModel):
 
 class BlueprintConfig(BaseModel):
     blueprint_id: str
-    transtions: Optional[TransationConfig]
+    translations: Optional[TranslationConfig]
 
 
 class GlueNode(BaseModel):

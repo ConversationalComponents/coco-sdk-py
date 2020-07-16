@@ -4,8 +4,10 @@ from httpx import AsyncClient
 
 from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBase
 
-async def exchange(component_id: str, session_id: str,
-                  user_input: str = None, **kwargs) -> CoCoResponse:
+
+async def exchange(
+    component_id: str, session_id: str, user_input: str = None, **kwargs
+) -> CoCoResponse:
     """
     A thin wrapper to call the coco exchange endpoint.
     Similar to the endpoint, component_id, and session_id are mandatory
@@ -29,15 +31,15 @@ async def exchange(component_id: str, session_id: str,
         payload = {**{"user_input": user_input}, **kwargs}
     async with AsyncClient() as http_client:
         http_resp = await http_client.post(
-            "https://cocohub.ai/api/exchange/"
-            f"{component_id}/{session_id}",
-            json=payload,
+            "https://cocohub.ai/api/exchange/{component_id}/{session_id}", json=payload,
         )
     coco_resp: dict = http_resp.json()
     return CoCoResponse(**coco_resp, raw_resp=coco_resp)
 
+
 def generate_session_id():
     return str(uuid.uuid4())
+
 
 class ConversationalComponent(ConversationalComponentBase):
     """
@@ -47,9 +49,11 @@ class ConversationalComponent(ConversationalComponentBase):
     then call it with session_id and more optional parameters.
     """
 
-    async def __call__(self, session_id: str, user_input: str = None, **kwargs) \
-            -> CoCoResponse:
+    async def __call__(
+        self, session_id: str, user_input: str = None, **kwargs
+    ) -> CoCoResponse:
         return await exchange(self.component_id, session_id, user_input, **kwargs)
+
 
 class ComponentSession(ComponentSessionBase):
     """
@@ -57,6 +61,7 @@ class ComponentSession(ComponentSessionBase):
 
     Initialize it with component_id, and session_id
     """
+
     def __init__(self, component_id: str, session_id: str = None):
         super().__init__(component_id, session_id=session_id)
         self.component = ConversationalComponent(component_id)
@@ -68,4 +73,3 @@ class ComponentSession(ComponentSessionBase):
         Should be used mostly with user_input and context
         """
         return await self.component(self.session_id, user_input, **kwargs)
-

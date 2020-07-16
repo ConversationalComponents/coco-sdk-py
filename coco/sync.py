@@ -4,8 +4,10 @@ import requests
 
 from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBase
 
-def exchange(component_id: str, session_id: str,
-                  user_input: str = None, **kwargs) -> CoCoResponse:
+
+def exchange(
+    component_id: str, session_id: str, user_input: str = None, **kwargs
+) -> CoCoResponse:
     """
     A thin wrapper to call the coco exchange endpoint.
     Similar to the endpoint, component_id, and session_id are mandatory
@@ -28,14 +30,14 @@ def exchange(component_id: str, session_id: str,
     if user_input:
         payload = {**{"user_input": user_input}, **kwargs}
     coco_resp = requests.post(
-        "https://cocohub.ai/api/exchange/"
-        f"{component_id}/{session_id}",
-        json=payload,
+        "https://cocohub.ai/api/exchange/" f"{component_id}/{session_id}", json=payload,
     ).json()
     return CoCoResponse(**coco_resp, raw_resp=coco_resp)
 
+
 def generate_session_id():
     return str(uuid.uuid4())
+
 
 class ConversationalComponent(ConversationalComponentBase):
     """
@@ -45,9 +47,11 @@ class ConversationalComponent(ConversationalComponentBase):
     then call it with session_id and more optional parameters.
     """
 
-    def __call__(self, session_id: str, user_input: str = None, **kwargs) \
-            -> CoCoResponse:
+    def __call__(
+        self, session_id: str, user_input: str = None, **kwargs
+    ) -> CoCoResponse:
         return exchange(self.component_id, session_id, user_input, **kwargs)
+
 
 class ComponentSession(ComponentSessionBase):
     """
@@ -55,6 +59,7 @@ class ComponentSession(ComponentSessionBase):
 
     Initialize it with component_id, and session_id
     """
+
     def __init__(self, component_id: str, session_id: str = None):
         super().__init__(component_id, session_id=session_id)
         self.component = ConversationalComponent(component_id)

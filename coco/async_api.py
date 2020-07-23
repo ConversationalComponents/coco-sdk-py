@@ -31,7 +31,8 @@ async def exchange(
         payload = {"user_input": user_input, **kwargs}
     async with AsyncClient() as http_client:
         http_resp = await http_client.post(
-            f"https://cocohub.ai/api/exchange/{component_id}/{session_id}", json=payload,
+            f"https://cocohub.ai/api/exchange/{component_id}/{session_id}",
+            json=payload,
         )
     coco_resp: dict = http_resp.json()
     return CoCoResponse(**coco_resp, raw_resp=coco_resp)

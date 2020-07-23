@@ -13,6 +13,7 @@ class CoCoResponse:
         updated_context: dict = {},
         confidence: float = 1.0,
         out_of_context: bool = False,
+        outputs: dict = {},
         raw_resp: dict = {},
         **kwargs
     ):
@@ -23,6 +24,7 @@ class CoCoResponse:
         self.confidence: float = confidence
         self.out_of_context: bool = out_of_context
         self.raw_resp: dict = raw_resp
+        self.outputs = outputs
 
         for k, karg in kwargs.items():
             setattr(self, k, karg)

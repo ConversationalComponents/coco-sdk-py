@@ -28,7 +28,7 @@ async def exchange(
     """
     payload = kwargs
     if user_input:
-        payload = {**{"user_input": user_input}, **kwargs}
+        payload = {"user_input": user_input, **kwargs}
     async with AsyncClient() as http_client:
         http_resp = await http_client.post(
             f"https://cocohub.ai/api/exchange/{component_id}/{session_id}", json=payload,

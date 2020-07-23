@@ -28,7 +28,7 @@ def exchange(
     """
     payload = kwargs
     if user_input:
-        payload = {**{"user_input": user_input}, **kwargs}
+        payload = {"user_input": user_input, **kwargs}
     coco_resp = requests.post(
         "https://cocohub.ai/api/exchange/" f"{component_id}/{session_id}", json=payload,
     ).json()

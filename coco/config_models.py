@@ -1,4 +1,4 @@
-from typing import Dict, Optional, List, Union
+from typing import Dict, Optional, List, Union, Any
 
 from pydantic import BaseModel
 
@@ -43,7 +43,7 @@ class OutputTransition(GlueTransition):
 class GlueNodeV2(BaseModel):
     component_id: str
     on: List[Union[SuccessTransition, OutputTransition, GlueTransition]] = []
-    parameters: Dict[str, str] = {}
+    parameters: Dict[str, Any] = {}
     position: Optional[Dict[str, int]]
 
 

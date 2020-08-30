@@ -1,9 +1,11 @@
+import os
 import uuid
 
 from httpx import AsyncClient
 
 from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBase
 
+COCOHUB_URL = os.environ.get("COCOHUB_URL", "https://cocohub.ai")
 
 async def exchange(
     component_id: str, session_id: str, user_input: str = None, **kwargs
@@ -31,7 +33,7 @@ async def exchange(
         payload = {"user_input": user_input, **kwargs}
     async with AsyncClient() as http_client:
         http_resp = await http_client.post(
-            f"https://cocohub.ai/api/exchange/{component_id}/{session_id}",
+            f"{COCOHUB_URL}/api/exchange/{component_id}/{session_id}",
             json=payload,
         )
     coco_resp: dict = http_resp.json()

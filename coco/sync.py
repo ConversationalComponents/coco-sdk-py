@@ -1,9 +1,11 @@
+import os
 import uuid
 
 import requests
 
 from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBase
 
+COCOHUB_URL = os.environ.get("COCOHUB_URL", "https://cocohub.ai")
 
 def exchange(
     component_id: str, session_id: str, user_input: str = None, **kwargs
@@ -30,7 +32,7 @@ def exchange(
     if user_input:
         payload = {"user_input": user_input, **kwargs}
     coco_resp = requests.post(
-        "https://cocohub.ai/api/exchange/" f"{component_id}/{session_id}", json=payload,
+        f"{COCOHUB_URL}/api/exchange/{component_id}/{session_id}", json=payload,
     ).json()
     return CoCoResponse(**coco_resp, raw_resp=coco_resp)
 

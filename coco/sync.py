@@ -7,6 +7,7 @@ from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBas
 
 COCOHUB_URL = os.environ.get("COCOHUB_URL", "https://cocohub.ai")
 
+
 def exchange(
     component_id: str, session_id: str, user_input: str = None, **kwargs
 ) -> CoCoResponse:

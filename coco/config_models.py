@@ -13,6 +13,7 @@ class TranslationConfig(BaseModel):
 
 class BlueprintConfig(BaseModel):
     blueprint_id: str
+    component_id: Optional[str]
     translations: Optional[TranslationConfig]
 
 

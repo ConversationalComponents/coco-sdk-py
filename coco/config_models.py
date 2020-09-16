@@ -22,6 +22,7 @@ class GlueNode(BaseModel):
     on: Dict[str, str] = {}
     parameters: Dict[str, str] = {}
     position: Optional[Dict[str, int]]
+    call_with_new_input: Optional[bool]
 
 
 class GlueConfig(BlueprintConfig):
@@ -46,6 +47,7 @@ class GlueNodeV2(BaseModel):
     on: List[Union[SuccessTransition, OutputTransition, GlueTransition]] = []
     parameters: Dict[str, Any] = {}
     position: Optional[Dict[str, int]]
+    call_with_new_input: Optional[bool]
 
 
 class GlueConfigV2(BlueprintConfig):

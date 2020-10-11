@@ -24,7 +24,7 @@ setup(
     url="https://github.com/conversationalcomponents/coco-sdk-py",
     license="MIT",
     install_requires=["requests", "pygments", "pydantic"],
-    extras_require={"async": ["httpx==0.11.1"]},
+    extras_require={"async": ["httpx"]},
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",

@@ -51,8 +51,10 @@ class GlueNodeV2(BaseModel):
     call_with_new_input: Optional[bool]
     with_out_of_context: Optional[str]
 
+
 class GlueV2Metadata(BaseModel):
     with_out_of_context: Optional[str]
+
 
 class GlueConfigV2(BlueprintConfig):
     glue_v2: Dict[str, GlueNodeV2]
@@ -74,13 +76,15 @@ class QaConfig(BlueprintConfig):
 
 
 class SurveyV1QuestionType(str, Enum):
-    open = 'open'
-    multiple = 'multiple'
+    open = "open"
+    multiple = "multiple"
     yesno = "yesno"
+
 
 class CandidateAnswer(BaseModel):
     answer_id: str
     answer: str
+
 
 class SurveyV1Question(BaseModel):
     question_id: str
@@ -88,11 +92,14 @@ class SurveyV1Question(BaseModel):
     question_type: SurveyV1QuestionType
     answers: List[CandidateAnswer]
 
+
 class SurveyV1Config(ActionsConfig):
     survey_v1: List[SurveyV1Question]
 
+
 class QuizV1Question(SurveyV1Question):
     correct_answer_id: str
+
 
 class QuizV1Config(ActionsConfig):
     quiz_v1: List[QuizV1Question]

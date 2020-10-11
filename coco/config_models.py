@@ -52,7 +52,7 @@ class GlueNodeV2(BaseModel):
     with_out_of_context: Optional[str]
 
 class GlueV2Metadata(BaseModel):
-    default_with_out_of_context: Optional[str]
+    with_out_of_context: Optional[str]
 
 class GlueConfigV2(BlueprintConfig):
     glue_v2: Dict[str, GlueNodeV2]

@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Dict, Optional, List, Union, Any
 
 from pydantic import BaseModel
@@ -48,10 +49,14 @@ class GlueNodeV2(BaseModel):
     parameters: Dict[str, Any] = {}
     position: Optional[Dict[str, int]]
     call_with_new_input: Optional[bool]
+    with_out_of_context: Optional[str]
 
+class GlueV2Metadata(BaseModel):
+    default_with_out_of_context: Optional[str]
 
 class GlueConfigV2(BlueprintConfig):
     glue_v2: Dict[str, GlueNodeV2]
+    glue_v2_metadata: Optional[GlueV2Metadata]
 
 
 class ActionsConfig(BlueprintConfig):
@@ -66,3 +71,28 @@ class QaConfigNode(BaseModel):
 
 class QaConfig(BlueprintConfig):
     qa_config: List[QaConfigNode]
+
+
+class SurveyV1QuestionType(str, Enum):
+    open = 'open'
+    multiple = 'multiple'
+    yesno = "yesno"
+
+class CandidateAnswer(BaseModel):
+    answer_id: str
+    answer: str
+
+class SurveyV1Question(BaseModel):
+    question_id: str
+    questions: str
+    question_type: SurveyV1QuestionType
+    answers: List[CandidateAnswer]
+
+class SurveyV1Config(ActionsConfig):
+    survey_v1: List[SurveyV1Question]
+
+class QuizV1Question(SurveyV1Question):
+    correct_answer_id: str
+
+class QuizV1Config(ActionsConfig):
+    quiz_v1: List[QuizV1Question]

@@ -33,7 +33,8 @@ def exchange(
     if user_input:
         payload = {"user_input": user_input, **kwargs}
     coco_resp = requests.post(
-        f"{COCOHUB_URL}/api/exchange/{component_id}/{session_id}", json=payload,
+        f"{COCOHUB_URL}/api/exchange/{component_id}/{session_id}",
+        json=payload,
     ).json()
     return CoCoResponse(**coco_resp, raw_resp=coco_resp)
 

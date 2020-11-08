@@ -67,7 +67,7 @@ def ccml_to_google(text_input):
         text_input: (string) CCML input to convert to Google SSML.
 
     Returns:
-        Amazon SSML text (string).
+        Google SSML text (string).
     """
     google_ccml_tags = list(CCML_DICTIONARY["google"].keys())
     common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
@@ -77,3 +77,23 @@ def ccml_to_google(text_input):
     )
 
     return __convert_to_ccml(text=clean_text, tags_dictionary=CCML_DICTIONARY["google"])
+
+
+def ccml_to_twiml(text_input):
+    """
+    Convert CCML tags to Twilio SSML(TwiML) tags and remove wrong tags.
+
+    Arguments:
+        text_input: (string) CCML input to convert to Twilio SSML(TwiML).
+
+    Returns:
+        TwiML text (string).
+    """
+    twilio_ccml_tags = list(CCML_DICTIONARY["twilio"].keys())
+    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
+
+    clean_text = parse.remove_invalid_tags(
+        text=text_input, valid_tags=[*twilio_ccml_tags, *common_ccml_tags]
+    )
+
+    return __convert_to_ccml(text=clean_text, tags_dictionary=CCML_DICTIONARY["twilio"])

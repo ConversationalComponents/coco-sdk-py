@@ -39,6 +39,28 @@ def __convert_to_ccml(text: str, tags_dictionary: Dict):
     return res
 
 
+def ccml_to_aws_polly(text_input):
+    """
+    Convert CCML tags to AWS Polly SSML tags and remove wrong tags.
+
+    Arguments:
+        text_input: (string) CCML input to convert to AWS Polly SSML.
+
+    Returns:
+        AWS Polly SSML text (string).
+    """
+    aws_polly_ccml_tags = list(CCML_DICTIONARY["aws_polly"].keys())
+    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
+
+    clean_text = parse.remove_invalid_tags(
+        text=text_input, valid_tags=[*aws_polly_ccml_tags, *common_ccml_tags]
+    )
+
+    return __convert_to_ccml(
+        text=clean_text, tags_dictionary=CCML_DICTIONARY["aws_polly"]
+    )
+
+
 def ccml_to_amazon(text_input):
     """
     Convert CCML tags to Amazon SSML tags and remove wrong tags.

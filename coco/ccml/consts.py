@@ -1,4 +1,13 @@
 CCML_DICTIONARY = {
+    "aws_polly": {
+        "speak": None,
+        "phoneme": None,
+        "domain": "amazon:domain",
+        "effect": "amazon:effect",
+        "emotion": "amazon:emotion",
+        "language": "lang",
+        "part-of-speech": "w",
+    },
     "amazon": {
         "phoneme": None,
         "voice": None,

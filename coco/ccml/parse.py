@@ -5,6 +5,7 @@ import uuid
 from typing import List
 
 import lxml.etree as ET
+from xml.sax.saxutils import escape
 
 
 # Consts.
@@ -29,13 +30,7 @@ def escape_special_characters(text):
     splited_raw_text = t_c.split(gensym_str)
 
     for t in splited_raw_text:
-        escaped = copy.copy(t)
-        escaped = escaped.replace('"', "&quot;")
-        escaped = escaped.replace("&", "&amp;")
-        escaped = escaped.replace("'", "&apos;")
-        escaped = escaped.replace("<", "&lt;")
-        escaped = escaped.replace(">", "&gt;")
-        text = text.replace(t, escaped)
+        text = text.replace(t, escape(t))
 
     return text
 

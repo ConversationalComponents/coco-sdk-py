@@ -1,6 +1,5 @@
 import re
 import uuid
-import copy
 
 from typing import Dict
 
@@ -10,35 +9,6 @@ from .consts import CCML_DICTIONARY
 
 # Consts.
 XML_TAG_REG = r"<((\/|)+[a-z]+)({gensym})+([a-z]+)"
-
-
-def __escape_polly_special_characters(ssml_text):
-    """
-    Escape special characters on Amazon polly related ssml.
-
-    Arguments:
-        ssml_text: (string) Target text.
-    """
-    ssml_t_c = copy.copy(ssml_text)
-    gensym_str = uuid.uuid4().hex[:5]
-
-    matches = re.finditer(r"<((\/|)+[a-z]+)([a-z])+([a-z]+)+(.*?)>", ssml_text,)
-
-    for m in matches:
-        ssml_t_c = ssml_t_c.replace(m[0], gensym_str)
-
-    splited_raw_text = ssml_t_c.split(gensym_str)
-
-    for t in splited_raw_text:
-        escaped = copy.copy(t)
-        escaped = escaped.replace('"', "&quot;")
-        escaped = escaped.replace("&", "&amp;")
-        escaped = escaped.replace("'", "&apos;")
-        escaped = escaped.replace("<", "&lt;")
-        escaped = escaped.replace(">", "&gt;")
-        ssml_text = ssml_text.replace(t, escaped)
-
-    return ssml_text
 
 
 def __convert_to_ccml(text: str, tags_dictionary: Dict):
@@ -90,7 +60,7 @@ def ccml_to_aws_polly(text_input):
         text=clean_text, tags_dictionary=CCML_DICTIONARY["aws_polly"]
     )
 
-    return __escape_polly_special_characters(ssml_text=aws_polly_ssml)
+    return aws_polly_ssml
 
 
 def ccml_to_amazon(text_input):
@@ -113,7 +83,7 @@ def ccml_to_amazon(text_input):
     amazon_ssml = __convert_to_ccml(
         text=clean_text, tags_dictionary=CCML_DICTIONARY["amazon"]
     )
-    return __escape_polly_special_characters(ssml_text=amazon_ssml)
+    return amazon_ssml
 
 
 def ccml_to_google(text_input):

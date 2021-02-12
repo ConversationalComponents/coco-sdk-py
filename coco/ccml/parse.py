@@ -1,12 +1,38 @@
 import re
+import copy
+import uuid
 
 from typing import List
 
 import lxml.etree as ET
+from xml.sax.saxutils import escape
 
 
 # Consts.
 SPECIFIC_TAG_REGEX = "<(\/|)({0})(|[^\<\>]+)>"
+
+
+def escape_special_characters(text):
+    """
+    Escape special characters on XML related ssml.
+
+    Arguments:
+        text: (string) Target text.
+    """
+    t_c = copy.copy(text)
+    gensym_str = uuid.uuid4().hex[:5]
+
+    matches = re.finditer(r"<((\/|)+[a-z]+)([a-z])+([a-z]+)+(.*?)>", text,)
+
+    for m in matches:
+        t_c = t_c.replace(m[0], gensym_str)
+
+    splited_raw_text = t_c.split(gensym_str)
+
+    for t in splited_raw_text:
+        text = text.replace(t, escape(t))
+
+    return text
 
 
 def rename_tag(text: str, tag_name: str, new_tag_name: str):
@@ -59,7 +85,8 @@ def remove_invalid_tags(text: str, valid_tags: List):
     Returns:
         Clean text (string).
     """
-    et = ET.fromstring(f"<body>{text}</body>")
+    escaped_text = escape_special_characters(text=text)
+    et = ET.fromstring(f"<body>{escaped_text}</body>")
 
     result_text = ET.tostring(et).decode("utf-8")
 
@@ -78,8 +105,9 @@ def clear_xml_tags(text: str):
     Returns:
         Clean text without XML tags. (string)
     """
+    escaped_text = escape_special_characters(text=text)
     return ET.tostring(
-        ET.fromstring(f"<wrap>{text}</wrap>".encode("utf-8")),
+        ET.fromstring(f"<wrap>{escaped_text}</wrap>".encode("utf-8")),
         method="text",
         encoding="utf-8",
     ).decode("utf-8")

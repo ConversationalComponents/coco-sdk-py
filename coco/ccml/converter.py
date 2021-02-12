@@ -13,6 +13,12 @@ XML_TAG_REG = r"<((\/|)+[a-z]+)({gensym})+([a-z]+)"
 
 
 def __escape_polly_special_characters(ssml_text):
+    """
+    Escape special characters on Amazon polly related ssml.
+
+    Arguments:
+        ssml_text: (string) Target text.
+    """
     ssml_t_c = copy.copy(ssml_text)
     gensym_str = uuid.uuid4().hex[:5]
 

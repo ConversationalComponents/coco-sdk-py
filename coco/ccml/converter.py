@@ -16,24 +16,21 @@ def __escape_polly_special_characters(ssml_text):
     ssml_t_c = copy.copy(ssml_text)
     gensym_str = uuid.uuid4().hex[:5]
 
-    matches = re.finditer(
-        r"<((\/|)+[a-z]+)([a-z])+([a-z]+)+(.*?)>",
-        "<test>test<dasdas test=" " /></test>",
-    )
+    matches = re.finditer(r"<((\/|)+[a-z]+)([a-z])+([a-z]+)+(.*?)>", ssml_text,)
 
     for m in matches:
-        ssml_t_c.replace(m[0], gensym_str)
+        ssml_t_c = ssml_t_c.replace(m[0], gensym_str)
 
     splited_raw_text = ssml_t_c.split(gensym_str)
 
     for t in splited_raw_text:
         escaped = copy.copy(t)
-        escaped.replace('"', "&quot;")
-        escaped.replace("&", "&amp;")
-        escaped.replace("'", "&apos;")
-        escaped.replace("<", "&lt;")
-        escaped.replace(">", "&gt;")
-        ssml_text.replace(t, escaped)
+        escaped = escaped.replace('"', "&quot;")
+        escaped = escaped.replace("&", "&amp;")
+        escaped = escaped.replace("'", "&apos;")
+        escaped = escaped.replace("<", "&lt;")
+        escaped = escaped.replace(">", "&gt;")
+        ssml_text = ssml_text.replace(t, escaped)
 
     return ssml_text
 

@@ -11,7 +11,7 @@ from .consts import CCML_DICTIONARY
 XML_TAG_REG = r"<((\/|)+[a-z]+)({gensym})+([a-z]+)"
 
 
-def __convert_to_ccml(text: str, tags_dictionary: Dict):
+def __convert_from_ccml(text: str, tags_dictionary: Dict):
     """
     Handle tag replacement in target text.
 
@@ -56,7 +56,7 @@ def ccml_to_aws_polly(text_input):
         text=text_input, valid_tags=[*aws_polly_ccml_tags, *common_ccml_tags]
     )
 
-    aws_polly_ssml = __convert_to_ccml(
+    aws_polly_ssml = __convert_from_ccml(
         text=clean_text, tags_dictionary=CCML_DICTIONARY["aws_polly"]
     )
 
@@ -80,7 +80,7 @@ def ccml_to_amazon(text_input):
         text=text_input, valid_tags=[*amazon_ccml_tags, *common_ccml_tags]
     )
 
-    amazon_ssml = __convert_to_ccml(
+    amazon_ssml = __convert_from_ccml(
         text=clean_text, tags_dictionary=CCML_DICTIONARY["amazon"]
     )
     return amazon_ssml
@@ -103,7 +103,9 @@ def ccml_to_google(text_input):
         text=text_input, valid_tags=[*google_ccml_tags, *common_ccml_tags]
     )
 
-    return __convert_to_ccml(text=clean_text, tags_dictionary=CCML_DICTIONARY["google"])
+    return __convert_from_ccml(
+        text=clean_text, tags_dictionary=CCML_DICTIONARY["google"]
+    )
 
 
 def ccml_to_twiml(text_input):
@@ -123,4 +125,6 @@ def ccml_to_twiml(text_input):
         text=text_input, valid_tags=[*twilio_ccml_tags, *common_ccml_tags]
     )
 
-    return __convert_to_ccml(text=clean_text, tags_dictionary=CCML_DICTIONARY["twilio"])
+    return __convert_from_ccml(
+        text=clean_text, tags_dictionary=CCML_DICTIONARY["twilio"]
+    )

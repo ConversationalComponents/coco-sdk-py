@@ -3,8 +3,8 @@ import uuid
 
 import lxml.etree as ET
 
-import parse
-from consts import CCML_DICTIONARY, CHANNEL_STORAGE_FOLDER, ChannelType
+from . import parse
+from .consts import CCML_DICTIONARY, CHANNEL_STORAGE_FOLDER, ChannelType
 
 
 # Consts.

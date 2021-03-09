@@ -116,6 +116,3 @@ def ccml_to_twiml(text_input):
         TwiML text (string).
     """
     return __convert_from_ccml(text=text_input, channel_type=ChannelType.TWILIO)
-
-
-print(ccml_to_amazon('<s>test<audio hub_id="victor:test.mp3" />hi</s>'))

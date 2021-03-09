@@ -1,5 +1,22 @@
+from enum import Enum
+
+
+class ChannelType(Enum):
+    AWS_POLLY = "aws_polly"
+    AMAZON = "amazon"
+    GOOGLE = "google"
+    TWILIO = "twilio"
+
+
+CHANNEL_STORAGE_FOLDER = {
+    ChannelType.AWS_POLLY.value: "alexa",
+    ChannelType.AMAZON.value: "alexa",
+    ChannelType.GOOGLE.value: "google",
+    ChannelType.TWILIO.value: "alexa",
+}
+
 CCML_DICTIONARY = {
-    "aws_polly": {
+    ChannelType.AWS_POLLY.value: {
         "speak": None,
         "phoneme": None,
         "domain": "amazon:domain",
@@ -8,7 +25,7 @@ CCML_DICTIONARY = {
         "language": "lang",
         "part-of-speech": "w",
     },
-    "amazon": {
+    ChannelType.AMAZON.value: {
         "phoneme": None,
         "voice": None,
         "language": "lang",
@@ -19,7 +36,7 @@ CCML_DICTIONARY = {
         "speak": None,
         "audio": None,
     },
-    "google": {
+    ChannelType.GOOGLE.value: {
         "mark": None,
         "media": None,
         "parallel": "par",
@@ -27,7 +44,11 @@ CCML_DICTIONARY = {
         "speak": None,
         "audio": None,
     },
-    "twilio": {"part-of-speech": "w", "language": "lang", "phoneme": None,},
+    ChannelType.TWILIO.value: {
+        "part-of-speech": "w",
+        "language": "lang",
+        "phoneme": None,
+    },
     "common": {
         "break": None,
         "say-as": None,

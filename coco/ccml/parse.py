@@ -22,7 +22,7 @@ def escape_special_characters(text):
     t_c = copy.copy(text)
     gensym_str = uuid.uuid4().hex[:5]
 
-    matches = re.finditer(r"<((\/|)+[a-z]+)([a-z])+([a-z]+)+(.*?)>", text,)
+    matches = re.finditer(r"<((\/|)+[a-z]+)+(.*?)>", text,)
 
     for m in matches:
         t_c = t_c.replace(m[0], gensym_str)

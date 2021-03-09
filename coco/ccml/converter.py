@@ -1,17 +1,18 @@
 import re
 import uuid
 
-from typing import Dict
+import lxml.etree as ET
 
 from . import parse
-from .consts import CCML_DICTIONARY
+from .consts import CCML_DICTIONARY, CHANNEL_STORAGE_FOLDER, ChannelType
 
 
 # Consts.
 XML_TAG_REG = r"<((\/|)+[a-z]+)({gensym})+([a-z]+)"
+VOICE_FILE_BASE_URL = "https://storage.googleapis.com/cocohub_voice"
 
 
-def __convert_from_ccml(text: str, tags_dictionary: Dict):
+def __convert_from_ccml(text: str, channel_type: ChannelType):
     """
     Handle tag replacement in target text.
 
@@ -26,7 +27,32 @@ def __convert_from_ccml(text: str, tags_dictionary: Dict):
 
     gensym_str = uuid.uuid4().hex[:5]
 
-    for ccml_tag, tag_name in tags_dictionary.items():
+    channel_tags_mapping = CCML_DICTIONARY[channel_type.value]
+
+    channel_tags = list(channel_tags_mapping.keys())
+    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
+
+    clean_text = parse.remove_invalid_tags(
+        text=text, valid_tags=[*channel_tags, *common_ccml_tags]
+    )
+
+    for ccml_tag, tag_name in channel_tags_mapping.items():
+        if tag_name == "audio":
+            et = ET.fromstring(f"<body>{clean_text}</body>")
+            found_tags = et.xpath(f"//{tag_name}")
+
+            for tag in found_tags:
+                hub_id = tag.attrib.get("hub_id") or None
+                if hub_id:
+                    folder_name, file_name = hub_id.split(":")
+                    tag.attrib[
+                        "src"
+                    ] = f"{VOICE_FILE_BASE_URL}/{folder_name}/{CHANNEL_STORAGE_FOLDER[channel_type.value]}/{file_name}"
+                    del tag.attrib["hub_id"]
+
+            result_text = ET.tounicode(et)[6:-7]
+            continue
+
         if tag_name:
             if ":" in tag_name:
                 tag_name = tag_name.replace(":", gensym_str)
@@ -49,18 +75,8 @@ def ccml_to_aws_polly(text_input):
     Returns:
         AWS Polly SSML text (string).
     """
-    aws_polly_ccml_tags = list(CCML_DICTIONARY["aws_polly"].keys())
-    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
 
-    clean_text = parse.remove_invalid_tags(
-        text=text_input, valid_tags=[*aws_polly_ccml_tags, *common_ccml_tags]
-    )
-
-    aws_polly_ssml = __convert_from_ccml(
-        text=clean_text, tags_dictionary=CCML_DICTIONARY["aws_polly"]
-    )
-
-    return aws_polly_ssml
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.AWS_POLLY)
 
 
 def ccml_to_amazon(text_input):
@@ -73,17 +89,7 @@ def ccml_to_amazon(text_input):
     Returns:
         Amazon SSML text (string).
     """
-    amazon_ccml_tags = list(CCML_DICTIONARY["amazon"].keys())
-    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
-
-    clean_text = parse.remove_invalid_tags(
-        text=text_input, valid_tags=[*amazon_ccml_tags, *common_ccml_tags]
-    )
-
-    amazon_ssml = __convert_from_ccml(
-        text=clean_text, tags_dictionary=CCML_DICTIONARY["amazon"]
-    )
-    return amazon_ssml
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.AMAZON)
 
 
 def ccml_to_google(text_input):
@@ -96,16 +102,7 @@ def ccml_to_google(text_input):
     Returns:
         Google SSML text (string).
     """
-    google_ccml_tags = list(CCML_DICTIONARY["google"].keys())
-    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
-
-    clean_text = parse.remove_invalid_tags(
-        text=text_input, valid_tags=[*google_ccml_tags, *common_ccml_tags]
-    )
-
-    return __convert_from_ccml(
-        text=clean_text, tags_dictionary=CCML_DICTIONARY["google"]
-    )
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.GOOGLE)
 
 
 def ccml_to_twiml(text_input):
@@ -118,13 +115,4 @@ def ccml_to_twiml(text_input):
     Returns:
         TwiML text (string).
     """
-    twilio_ccml_tags = list(CCML_DICTIONARY["twilio"].keys())
-    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
-
-    clean_text = parse.remove_invalid_tags(
-        text=text_input, valid_tags=[*twilio_ccml_tags, *common_ccml_tags]
-    )
-
-    return __convert_from_ccml(
-        text=clean_text, tags_dictionary=CCML_DICTIONARY["twilio"]
-    )
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.TWILIO)

@@ -6,6 +6,7 @@ class ChannelType(Enum):
     AMAZON = "amazon"
     GOOGLE = "google"
     TWILIO = "twilio"
+    TELEGRAM = "telegram"
 
 
 CHANNEL_STORAGE_FOLDER = {
@@ -13,6 +14,7 @@ CHANNEL_STORAGE_FOLDER = {
     ChannelType.AMAZON.value: "alexa",
     ChannelType.GOOGLE.value: "google",
     ChannelType.TWILIO.value: "alexa",
+    ChannelType.TELEGRAM.value: "alexa",
 }
 
 CCML_DICTIONARY = {
@@ -24,6 +26,13 @@ CCML_DICTIONARY = {
         "emotion": "amazon:emotion",
         "language": "lang",
         "part-of-speech": "w",
+        "break": None,
+        "say-as": None,
+        "p": None,
+        "s": None,
+        "prosody": None,
+        "emphasis": None,
+        "sub": None,
     },
     ChannelType.AMAZON.value: {
         "phoneme": None,
@@ -35,21 +44,6 @@ CCML_DICTIONARY = {
         "emotion": "amazon:emotion",
         "speak": None,
         "audio": None,
-    },
-    ChannelType.GOOGLE.value: {
-        "mark": None,
-        "media": None,
-        "parallel": "par",
-        "sequential": "seq",
-        "speak": None,
-        "audio": None,
-    },
-    ChannelType.TWILIO.value: {
-        "part-of-speech": "w",
-        "language": "lang",
-        "phoneme": None,
-    },
-    "common": {
         "break": None,
         "say-as": None,
         "p": None,
@@ -58,4 +52,32 @@ CCML_DICTIONARY = {
         "emphasis": None,
         "sub": None,
     },
+    ChannelType.GOOGLE.value: {
+        "mark": None,
+        "media": None,
+        "parallel": "par",
+        "sequential": "seq",
+        "speak": None,
+        "audio": None,
+        "break": None,
+        "say-as": None,
+        "p": None,
+        "s": None,
+        "prosody": None,
+        "emphasis": None,
+        "sub": None,
+    },
+    ChannelType.TWILIO.value: {
+        "part-of-speech": "w",
+        "language": "lang",
+        "phoneme": None,
+        "break": None,
+        "say-as": None,
+        "p": None,
+        "s": None,
+        "prosody": None,
+        "emphasis": None,
+        "sub": None,
+    },
+    ChannelType.TELEGRAM.value: {"audio": None},
 }

@@ -30,11 +30,8 @@ def __convert_from_ccml(text: str, channel_type: ChannelType):
     channel_tags_mapping = CCML_DICTIONARY[channel_type.value]
 
     channel_tags = list(channel_tags_mapping.keys())
-    common_ccml_tags = list(CCML_DICTIONARY["common"].keys())
 
-    clean_text = parse.remove_invalid_tags(
-        text=text, valid_tags=[*channel_tags, *common_ccml_tags]
-    )
+    clean_text = parse.remove_invalid_tags(text=text, valid_tags=channel_tags)
 
     # Handle audio tags
     et = ET.fromstring(f"<body>{clean_text}</body>")
@@ -116,3 +113,16 @@ def ccml_to_twiml(text_input):
         TwiML text (string).
     """
     return __convert_from_ccml(text=text_input, channel_type=ChannelType.TWILIO)
+
+
+def ccml_to_telegram(text_input):
+    """
+    Convert CCML tags to Telegram valid text, leave only audio tags for further analysis.
+
+    Arguments:
+        text_input: (string) CCML input to convert to Twilio SSML(TwiML).
+
+    Returns:
+        Text with audio tags only left (string).
+    """
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.TELEGRAM)

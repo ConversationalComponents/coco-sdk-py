@@ -9,7 +9,7 @@ from .consts import CCML_DICTIONARY, CHANNEL_STORAGE_FOLDER, ChannelType
 
 # Consts.
 XML_TAG_REG = r"<((\/|)+[a-z]+)({gensym})+([a-z]+)"
-VOICE_FILE_BASE_URL = "https://storage.googleapis.com/cocohub_voice"
+VOICE_FILE_BASE_URL = "https://cocohub-audio-files.s3.us-east-2.amazonaws.com"
 
 
 def __convert_from_ccml(text: str, channel_type: ChannelType):

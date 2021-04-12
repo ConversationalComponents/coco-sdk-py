@@ -31,7 +31,7 @@ async def query_intents(
 
     async with AsyncClient() as http_client:
         http_resp = await http_client.post(
-            f"{COCOHUB_URL}​/v2​/intent​/query",
+            f"{COCOHUB_URL}/v2/intent/query",
             json=payload,
         )
     coco_resp = http_resp.json()

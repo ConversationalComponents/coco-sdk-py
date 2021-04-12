@@ -4,6 +4,16 @@ import json
 from pygments import highlight, lexers, formatters
 
 
+class CoCoIntentResult:
+    def __init__(self, confidence: float, result: bool, name: str = None, **kwargs):
+        self.name = name
+        self.confidence = confidence
+        self.result = result
+
+        for k, karg in kwargs.items():
+            setattr(self, k, karg)
+
+
 class CoCoResponse:
     def __init__(
         self,

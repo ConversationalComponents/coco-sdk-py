@@ -1,11 +1,41 @@
 import os
+from typing import List
 import uuid
 
 from httpx import AsyncClient
 
-from .coco import CoCoResponse, ConversationalComponentBase, ComponentSessionBase
+from .coco import (
+    CoCoResponse,
+    ConversationalComponentBase,
+    ComponentSessionBase,
+    CoCoIntentResult,
+)
 
 COCOHUB_URL = os.environ.get("COCOHUB_URL", "https://cocohub.ai")
+
+
+async def query_intents(
+    intent_names: List[str], query: str = ""
+) -> List[CoCoIntentResult]:
+    """
+    A thin wrapper to call the coco query intents endpoint.
+
+    Arguments:
+        intent_names: (List[str]) List of strings when each string is an existing and valid intent name.
+        query: (string) The query that will be examined by each intent.
+
+    Response:
+        List of CoCo intent responses.
+    """
+    payload = {"query": query, "intent_names": intent_names}
+
+    async with AsyncClient() as http_client:
+        http_resp = await http_client.post(
+            f"{COCOHUB_URL}​/v2​/intent​/query",
+            json=payload,
+        )
+    coco_resp = http_resp.json()
+    return [CoCoIntentResult(**r) for r in coco_resp]
 
 
 async def exchange(

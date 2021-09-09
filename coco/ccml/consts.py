@@ -6,7 +6,7 @@ class ChannelType(Enum):
     AMAZON = "amazon"
     GOOGLE = "google"
     TWILIO = "twilio"
-    NEURAL = "neural"
+    AMAZON_NEURAL = "amazon_neural"
 
 
 CHANNEL_STORAGE_FOLDER = {
@@ -14,7 +14,7 @@ CHANNEL_STORAGE_FOLDER = {
     ChannelType.AMAZON.value: "alexa",
     ChannelType.GOOGLE.value: "google",
     ChannelType.TWILIO.value: "alexa",
-    ChannelType.NEURAL.value: "nueral",
+    ChannelType.AMAZON_NEURAL.value: "amazon_neural",
 }
 
 
@@ -64,7 +64,7 @@ CCML_DICTIONARY = {
         "prosody": None,
         "emphasis": None,
     },
-    ChannelType.NEURAL.value: {
+    ChannelType.AMAZON_NEURAL.value: {
         "speak": None,
         "phoneme": None,
         "domain": "amazon:domain",

@@ -116,3 +116,16 @@ def ccml_to_twiml(text_input):
         TwiML text (string).
     """
     return __convert_from_ccml(text=text_input, channel_type=ChannelType.TWILIO)
+
+
+def ccml_to_neural(text_input):
+    """
+    Convert CCML tags to Twilio SSML(TwiML) tags and remove wrong tags.
+
+    Arguments:
+        text_input: (string) CCML input to convert to Twilio SSML(TwiML).
+
+    Returns:
+        TwiML text (string).
+    """
+    return __convert_from_ccml(text=text_input, channel_type=ChannelType.NEURAL)

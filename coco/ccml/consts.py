@@ -68,7 +68,6 @@ CCML_DICTIONARY = {
         "speak": None,
         "phoneme": None,
         "domain": "amazon:domain",
-        "effect": "amazon:effect",
         "language": "lang",
         "part-of-speech": "w",
     },
